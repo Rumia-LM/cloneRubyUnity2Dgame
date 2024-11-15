@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class UIHealthBar : MonoBehaviour
 {
@@ -19,7 +20,15 @@ public class UIHealthBar : MonoBehaviour
 
     // Update is called once per frame
     public void SetValue(float value){
-        mask.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal,originalSize * value);
+
+        float target = value * originalSize;
+        DOTween.To(
+            ()=>mask.rectTransform.rect.width,
+            x => mask.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal,x),
+            target,
+            0.5f
+        ).SetEase(Ease.OutCubic);
+        //mask.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal,originalSize * value);
         
     }
 }
